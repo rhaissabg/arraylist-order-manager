@@ -31,17 +31,23 @@ public class OrderManagerDemo {
 				serveOrder(orders, servedOrders);
 				break;
 			case 3:
-				System.out.println(orders);
+				for (Order order : orders) {
+					System.out.println(order);
+				}
 				break;
 			case 4:
-				System.out.println(servedOrders);
+				for (Order order : servedOrders) {
+					System.out.println(order);
+				}
+				break;
+			case 5:
+				removeOrder(sc, orders);
 				break;
 			default:
 				break;
 			}
 		}
 		
-		System.out.println(orders);
 		sc.close();
 
 	}
@@ -81,20 +87,24 @@ public class OrderManagerDemo {
 	private static void serveOrder(ArrayList<Order> orders, ArrayList<Order> servedOrders) {
 		servedOrders.add(orders.get(0));
 		orders.remove(0);
-		System.out.println("Served Orders");
-		for (Order order : orders) {
-			System.out.println(order);
-		}
-		System.out.println("Pending Orders");
-		for (Order order : servedOrders) {
-			System.out.println(order);
-		}
 	}
 	
 	private static void createOrders(ArrayList<Order> orders) {
 		for (int i = 1; i <= 10; i++) {
 			orders.add(new Order(("Customer " + i), new ArrayList<String>(List.of(("item " + i), ("item " + (i+1)))), (i % 2 == 0)));
 		}
+	}
+	
+	private static void removeOrder(Scanner sc, ArrayList<Order> orders) {
+		System.out.print("Enter the client name to delete order: ");
+		sc.nextLine();
+		String customerName = sc.nextLine();
+		for (int i = 0; i < orders.size(); i++) {
+			if (customerName.equalsIgnoreCase(orders.get(i).getCustomerName())) {
+				orders.remove(i);
+			}
+		}
+		System.out.println("Order was successfully deleted");
 	}
 
 }
