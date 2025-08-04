@@ -43,8 +43,14 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [customerName=" + customerName + ", orderItems=" + orderItems + ", isDelivery=" + isDelivery
-				+ "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nCustomer name: " + this.customerName);
+		sb.append("\nOrder items:\n");
+		for (int i = 0; i < this.orderItems.size(); i++) {
+			sb.append((i+1) + " - " + this.orderItems.get(i) + "\n");
+		}
+		sb.append("Delivery or pickup: " + (isDelivery ? "delivery" : "pickup") + "\n");
+		return sb.toString();
 	}
 
 	@Override

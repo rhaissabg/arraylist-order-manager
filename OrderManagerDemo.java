@@ -1,6 +1,7 @@
 package io.github.rhaissabg.arraylist;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class OrderManagerDemo {
@@ -10,8 +11,9 @@ public class OrderManagerDemo {
 		Scanner sc = new Scanner(System.in);
 		
 		ArrayList<Order> orders = new ArrayList<Order>();
+		ArrayList<Order> servedOrders = new ArrayList<Order>();
 		int option = 1;
-		
+		createOrders(orders);
 		while (option != 0) {
 			System.out.println("Enter a number to select an action: ");
 			System.out.println("1 - Register new order");
@@ -26,10 +28,13 @@ public class OrderManagerDemo {
 				orders.add(registerNewOrder(sc));
 				break;
 			case 2:
+				serveOrder(orders, servedOrders);
 				break;
 			case 3:
+				System.out.println(orders);
 				break;
 			case 4:
+				System.out.println(servedOrders);
 				break;
 			default:
 				break;
@@ -71,6 +76,25 @@ public class OrderManagerDemo {
 			order.setIsDelivery(true);
 		}
 		return order;
+	}
+	
+	private static void serveOrder(ArrayList<Order> orders, ArrayList<Order> servedOrders) {
+		servedOrders.add(orders.get(0));
+		orders.remove(0);
+		System.out.println("Served Orders");
+		for (Order order : orders) {
+			System.out.println(order);
+		}
+		System.out.println("Pending Orders");
+		for (Order order : servedOrders) {
+			System.out.println(order);
+		}
+	}
+	
+	private static void createOrders(ArrayList<Order> orders) {
+		for (int i = 1; i <= 10; i++) {
+			orders.add(new Order(("Customer " + i), new ArrayList<String>(List.of(("item " + i), ("item " + (i+1)))), (i % 2 == 0)));
+		}
 	}
 
 }
