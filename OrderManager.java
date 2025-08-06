@@ -10,7 +10,6 @@ public class OrderManager {
 	Order registerNewOrder(Scanner sc) {
 		Order order = new Order();
 		System.out.print("\nEnter customer name: ");
-		//		sc.nextLine();
 		order.setCustomerName(sc.nextLine());
 
 		ArrayList<String> items = new ArrayList<String>();
@@ -68,10 +67,6 @@ public class OrderManager {
 		if (!validId) {
 			System.out.println("Order not found");
 		}
-//		int id = catchException("Enter the order id to delete order: ", sc, 0, (orders.size()));
-//		System.out.println("\nOrder " + id + " was successfully deleted");
-//		System.out.println(orders.get(id - 1));
-//		orders.remove(id - 1);
 	}
 
 	int catchException(String msg, Scanner sc, int min, int max) {
