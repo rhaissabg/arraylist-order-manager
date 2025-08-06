@@ -32,20 +32,20 @@ public class OrderManagerDemo {
 				orders.add(registerNewOrder(sc));
 				break;
 			case 2:
-				System.out.println(orders.get(0));
+				if (!orders.isEmpty()) {
+					System.out.println(orders.get(0));
+				} else {
+					System.out.println("You don't have any orders.");
+				}
 				break;
 			case 3:
 				serveOrder(orders, servedOrders);
 				break;
 			case 4:
-				for (Order order : orders) {
-					System.out.println(order);
-				}
+				showOrders(orders);
 				break;
 			case 5:
-				for (Order order : servedOrders) {
-					System.out.println(order);
-				}
+				showOrders(servedOrders);
 				break;
 			case 6:
 				removeOrder(sc, orders);
@@ -133,6 +133,16 @@ public class OrderManagerDemo {
 			}
 		}
 		return -1;
+	}
+	
+	private static void showOrders(ArrayList<Order> orders) {
+		if (!orders.isEmpty()) {
+			for (Order order : orders) {
+				System.out.println(order);
+			}
+		} else {
+			System.out.println("You don't have any orders.");
+		}
 	}
 
 }
