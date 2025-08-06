@@ -15,7 +15,7 @@ public class OrderManagerDemo {
 		ArrayList<Order> servedOrders = new ArrayList<Order>();
 		int option = 1;
 		
-//		createOrders(orders);
+		createOrders(orders);
 		while (option != 0) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("\nEnter a number to select an action: \n");
@@ -106,12 +106,18 @@ public class OrderManagerDemo {
 	private static void removeOrder(Scanner sc, ArrayList<Order> orders) {
 		System.out.print("Enter the client name to delete order: ");
 		String customerName = sc.nextLine();
+		boolean foundClient = false;
 		for (int i = 0; i < orders.size(); i++) {
 			if (customerName.equalsIgnoreCase(orders.get(i).getCustomerName())) {
 				orders.remove(i);
+				System.out.println("Order was successfully deleted");
+				foundClient = true;
+				break;
 			}
 		}
-		System.out.println("Order was successfully deleted");
+		if (!foundClient) {
+			System.out.println("Client not found");
+		}
 	}
 	
 	private static int catchException(String msg, Scanner sc, int min, int max) {
