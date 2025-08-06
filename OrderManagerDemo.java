@@ -14,17 +14,19 @@ public class OrderManagerDemo {
 		ArrayList<Order> orders = new ArrayList<Order>();
 		ArrayList<Order> servedOrders = new ArrayList<Order>();
 		int option = 1;
-		createOrders(orders);
+		
+//		createOrders(orders);
 		while (option != 0) {
-			System.out.println("\nEnter a number to select an action: ");
-			System.out.println("1 - Register new order");
-			System.out.println("2 - Show next order");
-			System.out.println("3 - Serve next order");
-			System.out.println("4 - List all pending orders");
-			System.out.println("5 - List all served orders");
-			System.out.println("6 - Cancel order");
-			System.out.println("0 - Exit");
-			option = sc.nextInt();
+			StringBuilder sb = new StringBuilder();
+			sb.append("\nEnter a number to select an action: \n");
+			sb.append("1 - Register new order\n");
+			sb.append("2 - Show next order\n");
+			sb.append("3 - Serve next order\n");
+			sb.append("4 - List all pending orders\n");
+			sb.append("5 - List all served orders\n");
+			sb.append("6 - Cancel order\n");
+			sb.append("0 - Exit\n");
+			option = catchException(sb.toString(), sc, 0, 6);
 			switch (option) {
 			case 1:
 				orders.add(registerNewOrder(sc));
@@ -60,64 +62,39 @@ public class OrderManagerDemo {
 	private static Order registerNewOrder(Scanner sc) {
 		Order order = new Order();
 		System.out.print("\nEnter customer name: ");
-		sc.nextLine();
+//		sc.nextLine();
 		order.setCustomerName(sc.nextLine());
 
 		ArrayList<String> items = new ArrayList<String>();
 		boolean addMore = true;
 		int count = 1;
-		boolean validOption = false;
 		do {
 			System.out.printf("Enter #%d item: ", count);
 			String item = sc.nextLine();
 			items.add(item);
 			count++;
-			validOption = false;
-			while (!validOption) {
-				try {
-					System.out.print("Do you want to add more items? (0 - no / 1 - yes) ");
-					int option = sc.nextInt();
-					sc.nextLine();
-					if (option == 0) {
-						addMore = false;
-						validOption = true;
-					} else if (option == 1) {
-						validOption = true;
-					} else {
-						System.out.println("\nInvalid option, try again\n");
-					}
-				} catch (InputMismatchException e) {
-					System.out.println("\nEnter a valid option please\n");
-					sc.nextLine();
-				}
+			int option = catchException("Do you want to add more items? (0 - no / 1 - yes) ", sc, 0, 1);
+			if (option == 0) {
+				addMore = false;
 			}
 		} while (addMore);
 		order.setOrderItems(items);
-		validOption = false;
-		while (!validOption) {
-			try {
-				System.out.print("Is the order for pickup (1) or delivery (2)? ");
-				int deliveryOrPickup = sc.nextInt();
-				if (deliveryOrPickup == 1) {
-					order.setIsDelivery(false);
-					validOption = true;
-				} else if (deliveryOrPickup == 2) {
-					order.setIsDelivery(true);
-					validOption = true;
-				} else {
-					System.out.println("\nInvalid option, try again\n");
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("\nEnter a valid option please\n");
-				sc.nextLine();
-			}
+		int option = catchException("Is the order for pickup (1) or delivery (2)? ", sc, 1, 2);
+		if (option == 1) {
+			order.setIsDelivery(false);
+		} else if (option == 2) {
+			order.setIsDelivery(true);
 		}
 		return order;
 	}
 
 	private static void serveOrder(ArrayList<Order> orders, ArrayList<Order> servedOrders) {
-		servedOrders.add(orders.get(0));
-		orders.remove(0);
+		if (!orders.isEmpty()) {
+			servedOrders.add(orders.get(0));
+			orders.remove(0);
+		} else {
+			System.out.println("You don't have any orders.");
+		}
 	}
 
 	private static void createOrders(ArrayList<Order> orders) {
@@ -128,7 +105,6 @@ public class OrderManagerDemo {
 
 	private static void removeOrder(Scanner sc, ArrayList<Order> orders) {
 		System.out.print("Enter the client name to delete order: ");
-		sc.nextLine();
 		String customerName = sc.nextLine();
 		for (int i = 0; i < orders.size(); i++) {
 			if (customerName.equalsIgnoreCase(orders.get(i).getCustomerName())) {
@@ -136,6 +112,27 @@ public class OrderManagerDemo {
 			}
 		}
 		System.out.println("Order was successfully deleted");
+	}
+	
+	private static int catchException(String msg, Scanner sc, int min, int max) {
+		boolean validOption = false;
+		while (!validOption) {
+			try {
+				System.out.print(msg);
+				int option = sc.nextInt();
+				sc.nextLine();
+				if (option >= min && option <= max) {
+					validOption = true;
+					return option;
+				} else {
+					System.out.println("\nPlease, enter a valid option\n");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("\nPlease, enter a valid number option\n");
+				sc.nextLine();
+			}
+		}
+		return -1;
 	}
 
 }
