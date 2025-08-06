@@ -9,7 +9,6 @@ public class OrderManagerDemo {
 
 		Scanner sc = new Scanner(System.in);
 		OrderManager orderManager = new OrderManager();
-
 		ArrayList<Order> orders = new ArrayList<Order>();
 		ArrayList<Order> servedOrders = new ArrayList<Order>();
 		int option = 1;

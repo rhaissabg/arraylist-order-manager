@@ -33,6 +33,7 @@ public class OrderManager {
 		} else if (option == 2) {
 			order.setIsDelivery(true);
 		}
+		System.out.println("\nOrder created\n" + order + "\n");
 		return order;
 	}
 
@@ -52,20 +53,25 @@ public class OrderManager {
 	}
 
 	void removeOrder(Scanner sc, ArrayList<Order> orders) {
-		System.out.print("Enter the client name to delete order: ");
-		String customerName = sc.nextLine();
-		boolean foundClient = false;
+		System.out.print("Enter the order id to delete order: ");
+		int id = sc.nextInt();
+		boolean validId = false;
 		for (int i = 0; i < orders.size(); i++) {
-			if (customerName.equalsIgnoreCase(orders.get(i).getCustomerName())) {
+			if (orders.get(i).getId().equals(id)) {
+				validId = true;
+				System.out.println("\nOrder " + id + " was successfully deleted");
+				System.out.println(orders.get(i));
 				orders.remove(i);
-				System.out.println("Order was successfully deleted");
-				foundClient = true;
 				break;
 			}
 		}
-		if (!foundClient) {
-			System.out.println("Client not found");
+		if (!validId) {
+			System.out.println("Order not found");
 		}
+//		int id = catchException("Enter the order id to delete order: ", sc, 0, (orders.size()));
+//		System.out.println("\nOrder " + id + " was successfully deleted");
+//		System.out.println(orders.get(id - 1));
+//		orders.remove(id - 1);
 	}
 
 	int catchException(String msg, Scanner sc, int min, int max) {

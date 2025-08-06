@@ -5,6 +5,8 @@ import java.util.Objects;
 
 public class Order {
 
+	private Integer id;
+	private static Integer count = 1;
 	private String customerName;
 	private ArrayList<String> orderItems;
 	private Boolean isDelivery;
@@ -13,9 +15,12 @@ public class Order {
 		this.customerName = customerName;
 		this.orderItems = orderItems;
 		this.isDelivery = isDelivery;
+		this.id = count++;
 	}
 
-	public Order() {}
+	public Order() {
+		this.id = count++;
+	}
 
 	public String getCustomerName() {
 		return customerName;
@@ -41,9 +46,14 @@ public class Order {
 		this.isDelivery = isDelivery;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		sb.append("\nOrder id: " + this.id);
 		sb.append("\nCustomer name: " + this.customerName);
 		sb.append("\nOrder items:\n");
 		for (int i = 0; i < this.orderItems.size(); i++) {
@@ -55,7 +65,7 @@ public class Order {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(customerName, isDelivery, orderItems);
+		return Objects.hash(customerName, id, isDelivery, orderItems);
 	}
 
 	@Override
@@ -67,8 +77,8 @@ public class Order {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		return Objects.equals(customerName, other.customerName) && Objects.equals(isDelivery, other.isDelivery)
-				&& Objects.equals(orderItems, other.orderItems);
+		return Objects.equals(customerName, other.customerName) && Objects.equals(id, other.id)
+				&& Objects.equals(isDelivery, other.isDelivery) && Objects.equals(orderItems, other.orderItems);
 	}
 	
 }
